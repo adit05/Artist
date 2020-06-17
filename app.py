@@ -4,7 +4,7 @@
 
 import json, sys
 import dateutil.parser
-import babel, datetime as dt
+import babel
 from flask import Flask, render_template, request, Response, flash, redirect, url_for, jsonify
 from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
@@ -88,7 +88,7 @@ class Show(db.Model):
   #venue = db.relationship('Venue', backref=db.backref('shows', cascade='all, delete'))
   #artist = db.relationship('Artist', backref=db.backref('shows', cascade='all, delete'))
   def __repr__(self):
-      return f'<Show {self.id} {self.start_time}>'
+      return f'<Show {self.venue_id} {self.artist_id} {self.start_time}>'
 
 db.create_all() 
 
@@ -572,7 +572,7 @@ def create_show_submission():
      venue_id = form.venue_id.data,
      start_time = form.start_time
   )
-  print(show.start_time.date())
+  print(form.start_time.data) # In command line, It is showing 'None'.
   try:
     db.session.add(show)
     db.session.commit()
